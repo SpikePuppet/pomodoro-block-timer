@@ -1,12 +1,14 @@
 {
-  "name": "bun-react-template",
+  "name": "pomodoro-scheduler",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "bun --hot src/index.tsx",
     "build": "bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
-    "start": "NODE_ENV=production bun src/index.tsx"
+    "start": "NODE_ENV=production bun src/index.tsx",
+    "deploy": "bun run build && wrangler pages deploy dist",
+    "deploy:preview": "bun run build && wrangler pages deploy dist --branch preview"
   },
   "dependencies": {
     "react": "^19",
@@ -15,6 +17,7 @@
   "devDependencies": {
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "wrangler": "^3"
   }
 }
