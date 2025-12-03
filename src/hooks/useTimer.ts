@@ -53,28 +53,35 @@ export function useTimer(onPhaseComplete?: (phase: TimerPhase) => void) {
     []
   );
 
+  const completePhase = useCallback(() => {
+    playNotification();
+    setState((prev) => {
+      const nextPhase = getNextPhase(prev.phase, prev.pomodorosCompleted);
+      const newPomodorosCompleted =
+        prev.phase === "work"
+          ? prev.pomodorosCompleted + 1
+          : prev.pomodorosCompleted;
+
+      onPhaseComplete?.(prev.phase);
+
+      return {
+        phase: nextPhase,
+        status: "idle",
+        timeRemaining: DURATIONS[nextPhase],
+        pomodorosCompleted: newPomodorosCompleted,
+      };
+    });
+  }, [getNextPhase, playNotification, onPhaseComplete]);
+
   const tick = useCallback(() => {
     setState((prev) => {
       if (prev.timeRemaining <= 1) {
-        playNotification();
-        const nextPhase = getNextPhase(prev.phase, prev.pomodorosCompleted);
-        const newPomodorosCompleted =
-          prev.phase === "work"
-            ? prev.pomodorosCompleted + 1
-            : prev.pomodorosCompleted;
-
-        onPhaseComplete?.(prev.phase);
-
-        return {
-          phase: nextPhase,
-          status: "idle",
-          timeRemaining: DURATIONS[nextPhase],
-          pomodorosCompleted: newPomodorosCompleted,
-        };
+        completePhase();
+        return prev;
       }
       return { ...prev, timeRemaining: prev.timeRemaining - 1 };
     });
-  }, [getNextPhase, playNotification, onPhaseComplete]);
+  }, [completePhase]);
 
   useEffect(() => {
     if (state.status === "running") {
@@ -109,24 +116,8 @@ export function useTimer(onPhaseComplete?: (phase: TimerPhase) => void) {
   }, []);
 
   const skip = useCallback(() => {
-    playNotification();
-    setState((prev) => {
-      const nextPhase = getNextPhase(prev.phase, prev.pomodorosCompleted);
-      const newPomodorosCompleted =
-        prev.phase === "work"
-          ? prev.pomodorosCompleted + 1
-          : prev.pomodorosCompleted;
-
-      onPhaseComplete?.(prev.phase);
-
-      return {
-        phase: nextPhase,
-        status: "idle",
-        timeRemaining: DURATIONS[nextPhase],
-        pomodorosCompleted: newPomodorosCompleted,
-      };
-    });
-  }, [getNextPhase, onPhaseComplete, playNotification]);
+    completePhase();
+  }, [completePhase]);
 
   const setPhase = useCallback((phase: TimerPhase) => {
     setState((prev) => ({

@@ -38,6 +38,30 @@ body {
 .app__header {
   text-align: center;
   margin-bottom: 2rem;
+  position: relative;
+}
+
+.app__help-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--tomato-light);
+  background: white;
+  color: var(--tomato-dark);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.app__help-btn:hover {
+  background: var(--tomato-red);
+  border-color: var(--tomato-red);
+  color: white;
+  transform: scale(1.1);
 }
 
 .app__title {
@@ -201,13 +225,14 @@ body {
   color: var(--text-light);
 }
 
-/* Tomato Mascot Animation */
-.tomato-mascot {
-  display: block;
-  margin: 0 auto;
+/* Timer Mascot */
+.timer__mascot {
+  font-size: 4rem;
+  text-align: center;
+  line-height: 1;
 }
 
-.tomato-mascot.bouncing {
+.timer__mascot--bouncing {
   animation: bounce 1s ease-in-out infinite;
 }
 
@@ -539,4 +564,116 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Help Modal */
+.help-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.help {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.help__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--cream);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.help__close:hover {
+  background: var(--tomato-red);
+  color: white;
+}
+
+.help__title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--tomato-dark);
+  margin: 0 0 1.5rem 0;
+}
+
+.help__section {
+  margin-bottom: 1.5rem;
+}
+
+.help__section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 0.5rem 0;
+}
+
+.help__section p {
+  margin: 0;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.help__section ol,
+.help__section ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--text-light);
+}
+
+.help__section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.help__section kbd {
+  background: var(--cream);
+  border: 1px solid var(--cream-dark);
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.help__footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cream-dark);
+}
+
+.help__footer p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.help__footer a {
+  color: var(--tomato-red);
+  font-weight: 600;
+}
+
+.help__footer a:hover {
+  color: var(--tomato-dark);
 }

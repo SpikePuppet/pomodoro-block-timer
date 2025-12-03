@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import './index.css';
 import { Timer } from './components/Timer';
 import { BlockList } from './components/BlockList';
+import { Help } from './components/Help';
 import { useTimer } from './hooks/useTimer';
 import type { PomodoroBlock, TimerPhase } from './types';
 
@@ -22,6 +23,7 @@ function saveBlocks(blocks: PomodoroBlock[]) {
 
 export function App() {
   const [blocks, setBlocks] = useState<PomodoroBlock[]>(loadBlocks);
+  const [showHelp, setShowHelp] = useState(false);
   
   const pendingBlocks = useMemo(() => 
     blocks.filter(b => !b.completed).sort((a, b) => a.pomodoroNumber - b.pomodoroNumber),
@@ -92,7 +94,12 @@ export function App() {
     <div className="app">
       <header className="app__header">
         <h1 className="app__title">🍅 Pomodoro Timer</h1>
+        <button className="app__help-btn" onClick={() => setShowHelp(true)}>
+          ?
+        </button>
       </header>
+      
+      {showHelp && <Help onClose={() => setShowHelp(false)} />}
       
       <main className="app__main">
         <div className="app__timer-section">
