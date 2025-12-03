@@ -1,4 +1,3 @@
-import React from 'react';
 import type { PomodoroBlock as PomodoroBlockType } from '../types';
 import { PomodoroBlock } from './PomodoroBlock';
 import { BlockForm } from './BlockForm';
@@ -6,7 +5,6 @@ import { BlockForm } from './BlockForm';
 interface BlockListProps {
   blocks: PomodoroBlockType[];
   currentBlockId: string | null;
-  currentPomodoroNumber: number;
   nextPomodoroNumber: number;
   onAddBlock: (block: Omit<PomodoroBlockType, 'id' | 'completed' | 'createdAt'>) => void;
   onCompleteBlock: (id: string) => void;
@@ -17,7 +15,6 @@ interface BlockListProps {
 export function BlockList({
   blocks,
   currentBlockId,
-  currentPomodoroNumber,
   nextPomodoroNumber,
   onAddBlock,
   onCompleteBlock,
@@ -40,12 +37,12 @@ export function BlockList({
           <p className="block-list__empty">No blocks scheduled. Add one to get started!</p>
         ) : (
           <div className="block-list__items">
-            {pendingBlocks.map((block) => (
+            {pendingBlocks.map((block, index) => (
               <PomodoroBlock
                 key={block.id}
                 block={block}
+                position={index + 1}
                 isCurrent={block.id === currentBlockId}
-                currentPomodoroNumber={currentPomodoroNumber}
                 onComplete={() => onCompleteBlock(block.id)}
                 onDelete={() => onDeleteBlock(block.id)}
               />
@@ -65,11 +62,11 @@ export function BlockList({
             </button>
           </div>
           <div className="block-list__items">
-            {completedBlocks.map((block) => (
+            {completedBlocks.map((block, index) => (
               <PomodoroBlock
                 key={block.id}
                 block={block}
-                currentPomodoroNumber={currentPomodoroNumber}
+                position={index + 1}
                 onDelete={() => onDeleteBlock(block.id)}
               />
             ))}

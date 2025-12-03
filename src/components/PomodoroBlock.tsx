@@ -1,27 +1,24 @@
-import React from 'react';
 import type { PomodoroBlock as PomodoroBlockType } from '../types';
 
 interface PomodoroBlockProps {
   block: PomodoroBlockType;
+  position: number;
   isCurrent?: boolean;
-  currentPomodoroNumber?: number;
   onComplete?: () => void;
   onDelete?: () => void;
 }
 
 export function PomodoroBlock({ 
   block, 
+  position,
   isCurrent = false,
-  currentPomodoroNumber = 1,
   onComplete,
   onDelete,
 }: PomodoroBlockProps) {
-  const pomodorosAway = block.pomodoroNumber - currentPomodoroNumber;
-  
   return (
     <div className={`pomodoro-block ${isCurrent ? 'pomodoro-block--current' : ''} ${block.completed ? 'pomodoro-block--completed' : ''}`}>
       <div className="pomodoro-block__number">
-        <span className="pomodoro-block__number-text">#{block.pomodoroNumber}</span>
+        <span className="pomodoro-block__number-text">#{position}</span>
       </div>
       <div className="pomodoro-block__content">
         <div className="pomodoro-block__header">
@@ -30,10 +27,11 @@ export function PomodoroBlock({
             {block.title}
           </h3>
           {isCurrent && <span className="pomodoro-block__badge">Now</span>}
-          {!block.completed && !isCurrent && pomodorosAway > 0 && (
-            <span className="pomodoro-block__eta">
-              {pomodorosAway === 1 ? 'Next' : `${pomodorosAway} pomodoros away`}
-            </span>
+          {!block.completed && !isCurrent && position === 2 && (
+            <span className="pomodoro-block__eta">Next</span>
+          )}
+          {!block.completed && !isCurrent && position > 2 && (
+            <span className="pomodoro-block__eta">{position - 1} pomodoros away</span>
           )}
         </div>
         

@@ -32,13 +32,7 @@ export function App() {
   
   const currentBlock = pendingBlocks[0] || null;
   
-  const currentPomodoroNumber = currentBlock?.pomodoroNumber || 1;
-  
-  const nextPomodoroNumber = useMemo(() => {
-    if (pendingBlocks.length === 0) return 1;
-    const maxPending = Math.max(...pendingBlocks.map(b => b.pomodoroNumber));
-    return maxPending + 1;
-  }, [pendingBlocks]);
+  const nextPomodoroNumber = pendingBlocks.length + 1;
   
   const handlePhaseComplete = useCallback((phase: TimerPhase) => {
     if (phase === 'work' && currentBlock) {
@@ -130,7 +124,6 @@ export function App() {
           <BlockList
             blocks={blocks}
             currentBlockId={currentBlock?.id || null}
-            currentPomodoroNumber={currentPomodoroNumber}
             nextPomodoroNumber={nextPomodoroNumber}
             onAddBlock={handleAddBlock}
             onCompleteBlock={handleCompleteBlock}
