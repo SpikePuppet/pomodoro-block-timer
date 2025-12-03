@@ -7,8 +7,7 @@
     "dev": "bun --hot src/index.tsx",
     "build": "bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
     "start": "NODE_ENV=production bun src/index.tsx",
-    "deploy": "bun run build && wrangler pages deploy dist --project-name=pomodoro-scheduler",
-    "deploy:preview": "bun run build && wrangler pages deploy dist --project-name=pomodoro-scheduler --branch=preview"
+    "deploy": "echo 'Deployed by Cloudflare Pages'"
   },
   "dependencies": {
     "react": "^19",
