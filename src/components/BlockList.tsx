@@ -11,6 +11,7 @@ interface BlockListProps {
   onAddBlock: (block: Omit<PomodoroBlockType, 'id' | 'completed' | 'createdAt'>) => void;
   onCompleteBlock: (id: string) => void;
   onDeleteBlock: (id: string) => void;
+  onClearCompleted: () => void;
 }
 
 export function BlockList({
@@ -21,6 +22,7 @@ export function BlockList({
   onAddBlock,
   onCompleteBlock,
   onDeleteBlock,
+  onClearCompleted,
 }: BlockListProps) {
   const pendingBlocks = blocks
     .filter(b => !b.completed)
@@ -56,7 +58,12 @@ export function BlockList({
 
       {completedBlocks.length > 0 && (
         <div className="block-list__section block-list__section--completed">
-          <h2 className="block-list__heading">Completed</h2>
+          <div className="block-list__header">
+            <h2 className="block-list__heading">Completed</h2>
+            <button className="block-list__clear-btn" onClick={onClearCompleted}>
+              Clear All
+            </button>
+          </div>
           <div className="block-list__items">
             {completedBlocks.map((block) => (
               <PomodoroBlock

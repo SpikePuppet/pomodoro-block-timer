@@ -89,6 +89,10 @@ export function App() {
   const handleDeleteBlock = (id: string) => {
     setBlocks(prev => prev.filter(b => b.id !== id));
   };
+  
+  const handleClearCompleted = () => {
+    setBlocks(prev => prev.filter(b => !b.completed));
+  };
 
   return (
     <div className="app">
@@ -131,6 +135,7 @@ export function App() {
             onAddBlock={handleAddBlock}
             onCompleteBlock={handleCompleteBlock}
             onDeleteBlock={handleDeleteBlock}
+            onClearCompleted={handleClearCompleted}
           />
         </div>
       </main>
