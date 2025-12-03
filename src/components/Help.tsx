@@ -78,6 +78,17 @@ export function Help({ onClose }: HelpProps) {
             </a>{" "}
             and post an issue.
           </p>
+          <p>
+            Also check out my blog at{" "}
+            <a
+              href="https://spikepuppet.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              spikepuppet.io
+            </a>{" "}
+            for more tips and tricks!
+          </p>
         </div>
       </div>
     </div>
