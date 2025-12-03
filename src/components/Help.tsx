@@ -48,8 +48,8 @@ export function Help({ onClose }: HelpProps) {
         
         <div className="help__footer">
           <p>
-            This is a quick tool built for fun! If you run into any issues, 
-            head over to the <a href="https://github.com/yourusername/pomodoro-scheduler/issues" target="_blank" rel="noopener noreferrer">GitHub repo</a> and post an issue.
+            Built by <strong>Rhys Johns</strong> — a quick tool made for fun! 
+            If you run into any issues, head over to the <a href="https://github.com/rhysjohns/pomodoro-scheduler/issues" target="_blank" rel="noopener noreferrer">GitHub repo</a> and post an issue.
           </p>
         </div>
       </div>

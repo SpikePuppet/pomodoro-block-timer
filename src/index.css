@@ -36,15 +36,14 @@ body {
 }
 
 .app__header {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 2rem;
-  position: relative;
 }
 
 .app__help-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -55,6 +54,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
+  flex-shrink: 0;
 }
 
 .app__help-btn:hover {
