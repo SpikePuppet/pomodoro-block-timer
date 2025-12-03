@@ -8,6 +8,7 @@ export interface PomodoroBlock {
   description: string;
   completed: boolean;
   createdAt: number;
+  pomodoroNumber: number;
 }
 
 export interface TimerState {

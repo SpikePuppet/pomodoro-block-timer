@@ -6,6 +6,8 @@ import { BlockForm } from './BlockForm';
 interface BlockListProps {
   blocks: PomodoroBlockType[];
   currentBlockId: string | null;
+  currentPomodoroNumber: number;
+  nextPomodoroNumber: number;
   onAddBlock: (block: Omit<PomodoroBlockType, 'id' | 'completed' | 'createdAt'>) => void;
   onCompleteBlock: (id: string) => void;
   onDeleteBlock: (id: string) => void;
@@ -14,12 +16,18 @@ interface BlockListProps {
 export function BlockList({
   blocks,
   currentBlockId,
+  currentPomodoroNumber,
+  nextPomodoroNumber,
   onAddBlock,
   onCompleteBlock,
   onDeleteBlock,
 }: BlockListProps) {
-  const pendingBlocks = blocks.filter(b => !b.completed);
-  const completedBlocks = blocks.filter(b => b.completed);
+  const pendingBlocks = blocks
+    .filter(b => !b.completed)
+    .sort((a, b) => a.pomodoroNumber - b.pomodoroNumber);
+  const completedBlocks = blocks
+    .filter(b => b.completed)
+    .sort((a, b) => b.pomodoroNumber - a.pomodoroNumber);
 
   return (
     <div className="block-list">
@@ -35,6 +43,7 @@ export function BlockList({
                 key={block.id}
                 block={block}
                 isCurrent={block.id === currentBlockId}
+                currentPomodoroNumber={currentPomodoroNumber}
                 onComplete={() => onCompleteBlock(block.id)}
                 onDelete={() => onDeleteBlock(block.id)}
               />
@@ -42,7 +51,7 @@ export function BlockList({
           </div>
         )}
         
-        <BlockForm onAdd={onAddBlock} />
+        <BlockForm onAdd={onAddBlock} nextPomodoroNumber={nextPomodoroNumber} />
       </div>
 
       {completedBlocks.length > 0 && (
@@ -53,6 +62,7 @@ export function BlockList({
               <PomodoroBlock
                 key={block.id}
                 block={block}
+                currentPomodoroNumber={currentPomodoroNumber}
                 onDelete={() => onDeleteBlock(block.id)}
               />
             ))}

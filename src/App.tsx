@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import './index.css';
 import { Timer } from './components/Timer';
 import { BlockList } from './components/BlockList';
@@ -23,7 +23,20 @@ function saveBlocks(blocks: PomodoroBlock[]) {
 export function App() {
   const [blocks, setBlocks] = useState<PomodoroBlock[]>(loadBlocks);
   
-  const currentBlock = blocks.find(b => !b.completed) || null;
+  const pendingBlocks = useMemo(() => 
+    blocks.filter(b => !b.completed).sort((a, b) => a.pomodoroNumber - b.pomodoroNumber),
+    [blocks]
+  );
+  
+  const currentBlock = pendingBlocks[0] || null;
+  
+  const currentPomodoroNumber = currentBlock?.pomodoroNumber || 1;
+  
+  const nextPomodoroNumber = useMemo(() => {
+    if (pendingBlocks.length === 0) return 1;
+    const maxPending = Math.max(...pendingBlocks.map(b => b.pomodoroNumber));
+    return maxPending + 1;
+  }, [pendingBlocks]);
   
   const handlePhaseComplete = useCallback((phase: TimerPhase) => {
     if (phase === 'work' && currentBlock) {
@@ -42,6 +55,18 @@ export function App() {
   useEffect(() => {
     saveBlocks(blocks);
   }, [blocks]);
+  
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'q') {
+        e.preventDefault();
+        timer.skip();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [timer.skip]);
   
   const handleAddBlock = (block: Omit<PomodoroBlock, 'id' | 'completed' | 'createdAt'>) => {
     const newBlock: PomodoroBlock = {
@@ -73,7 +98,7 @@ export function App() {
         <div className="app__timer-section">
           {currentBlock && (
             <div className="app__current-task">
-              <span className="app__current-label">Working on:</span>
+              <span className="app__current-label">Pomodoro #{currentBlock.pomodoroNumber}</span>
               <span className="app__current-title">{currentBlock.title}</span>
             </div>
           )}
@@ -94,6 +119,8 @@ export function App() {
           <BlockList
             blocks={blocks}
             currentBlockId={currentBlock?.id || null}
+            currentPomodoroNumber={currentPomodoroNumber}
+            nextPomodoroNumber={nextPomodoroNumber}
             onAddBlock={handleAddBlock}
             onCompleteBlock={handleCompleteBlock}
             onDeleteBlock={handleDeleteBlock}
